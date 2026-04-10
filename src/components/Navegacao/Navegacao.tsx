@@ -1,7 +1,9 @@
-import { type JSX } from "react";
+import { type JSX, useState } from "react";
+import { Link } from 'react-router-dom';
 import { Menubar } from 'primereact/menubar';
 import type { MenuItem } from 'primereact/menuitem';
 import { Avatar } from 'primereact/avatar';
+import AuthRequests from '../../fetch/AuthRequests';
 
 interface CustomMenuItem extends MenuItem {
     badge?: number;
@@ -10,6 +12,12 @@ interface CustomMenuItem extends MenuItem {
 }
 
 function Navegacao(): JSX.Element {
+    const [isAuthenticated] = useState(() => {
+        return localStorage.getItem('isAuth') === 'true';
+    });
+
+    const username = localStorage.getItem('username');
+
     const items: CustomMenuItem[] = [
         {
             label: 'Home',
@@ -19,21 +27,21 @@ function Navegacao(): JSX.Element {
         },
         {
             label: 'Alunos',
-            icon: 'pi pi-star',
+            icon: 'pi pi-users',
             className: 'm-5 text-white text-lg',
-            url: "#"
+            url: "/lista/aluno"
         },
         {
             label: 'Livros',
-            icon: 'pi pi-star',
+            icon: 'pi pi-book',
             className: 'm-5 text-white text-lg',
-            url: "#"
+            url: "/livros"
         },
         {
-            label: 'Empréstimos',
-            icon: 'pi pi-star',
+            label: 'Emprestimos',
+            icon: 'pi pi-arrow-right-arrow-left',
             className: 'm-5 text-white text-lg',
-            url: "#"   
+            url: "/emprestimos"
         }
     ];
 
@@ -46,23 +54,35 @@ function Navegacao(): JSX.Element {
         />
     );
 
-    const end = (
+    const end = isAuthenticated ? (
         <div className="flex align-items-center gap-2">
-            <p className="text-white content-center pr-[0.5rem]">Amy Elsner</p>
+            <p className="text-white content-center pr-[0.5rem]">{username}</p>
             <Avatar
                 image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png"
                 shape="circle"
                 className="mr-10 !w-[25%] !h-[25%]"
             />
+            <button
+                onClick={() => AuthRequests.removeToken()}
+                className="mr-10 px-4 py-2 bg-white text-slate-700 rounded font-semibold"
+            >
+                Sair
+            </button>
         </div>
+    ) : (
+        <Link to="/login">
+            <button className="mr-10 px-4 py-2 bg-white text-slate-700 rounded font-semibold">
+                Login
+            </button>
+        </Link>
     );
 
     return (
         <header className="card h-[12vh] bg-slate-700 content-center">
-            <Menubar 
-                model={items} 
-                start={start} 
-                end={end} 
+            <Menubar
+                model={items}
+                start={start}
+                end={end}
             />
         </header>
     );
