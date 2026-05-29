@@ -1,3 +1,5 @@
+import type AlunoDTO from "../dto/AlunoDTO";
+
 // Classe responsável por fazer requisições à API - aluno
 class AlunoRequests {
     private serverUrl: string;
@@ -22,6 +24,49 @@ class AlunoRequests {
             return null;
         }
     }
+
+    async enviarFormularioAluno(formAluno: AlunoDTO): Promise<boolean> {
+        try {
+            const token = localStorage.getItem('token');
+            const respostaAPI = await fetch(`${this.serverUrl}${this.endpointAlunos}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': `${token}`
+                },
+                body: JSON.stringify(formAluno)
+            });
+
+            if(!respostaAPI.ok) throw new Error(`Erro ${respostaAPI.status}: ${respostaAPI.statusText}`);
+
+            console.info(`${respostaAPI.status}: ${respostaAPI.statusText}`);
+
+            return true;
+        } catch (error) {
+            console.error(`Erro ao fazer consulta à API. ${error}`);
+            return false;
+        }
+    }
+
+    async async (formAluno: AlunoDTO): Promise<boolean> {
+    try {
+        const token = localStorage.getItem('token');
+        const respostaAPI = await fetch(`${this.serverUrl}${this.endpointAlunos}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-access-token': `${token}`
+            },
+            body: JSON.stringify(formAluno)
+        });
+
+        if (!respostaAPI.ok) throw new Error(`Erro ${respostaAPI.status}: ${respostaAPI.statusText}`);
+        return true;
+    } catch (error) {
+        console.error(`Erro ao fazer consulta à API. ${error}`);
+        return false;
+    }
+}
 }
 
 export default new AlunoRequests();

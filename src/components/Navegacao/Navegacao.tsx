@@ -48,7 +48,7 @@ function Navegacao(): JSX.Element {
     const start = (
         <img
             alt="logo"
-            src='./src/assets/app-icon.png'
+            src='/src/assets/app-icon.png'
             height="100"
             className="h-20 p-3 ml-10 mr-5 h-[7rem]"
         />

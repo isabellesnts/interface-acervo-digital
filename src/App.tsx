@@ -7,6 +7,7 @@ import PLivros from './pages/PLivros/PLivros'
 import PEmprestimos from './pages/PEmprestimos/PEmprestimos'
 import Navegacao from './components/Navegacao/Navegacao'
 import Rodape from './components/Rodape/Rodape'
+import PCadastroAluno from './pages/PCadastro/PCadastroAluno/PCadastroAluno'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
         <Route path='/lista/aluno' element={<PListagemAluno />} />
         <Route path='/livros' element={<PLivros />} />
         <Route path='/emprestimos' element={<PEmprestimos />} />
+        <Route path='/cadastro/aluno' element={<PCadastroAluno />} />
       </Routes>
       <Rodape />
     </BrowserRouter>
